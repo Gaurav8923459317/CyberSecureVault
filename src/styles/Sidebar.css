@@ -1,0 +1,85 @@
+/* Sidebar Main Container */
+.sidebar {
+  width: 250px;                    /* Fixed width */
+  height: 100vh;                   /* Full viewport height */
+  background-color: #1f2937;       /* Dark gray background */
+  color: white;                    /* White text color */
+  padding: 1rem;                   /* Internal spacing */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Right side shadow */
+  position: fixed;                 /* Fixed position */
+  left: 0;                         /* Left side align */
+  top: 0;                          /* Top align */
+  overflow-y: auto;                /* Scroll if content overflow */
+}
+
+/* Sidebar Header Styling */
+.sidebar__header {
+  padding-bottom: 1rem;            /* Bottom spacing */
+  border-bottom: 1px solid #374151; /* Bottom border */
+  margin-bottom: 1rem;             /* Space below header */
+}
+
+.sidebar__header h3 {
+  margin: 0;                       /* Remove default margin */
+  font-size: 1.2rem;               /* Font size */
+  font-weight: 600;                /* Semi-bold weight */
+}
+
+/* Navigation Menu Styling */
+.sidebar__nav {
+  display: flex;                   /* Flexbox layout */
+  flex-direction: column;          /* Vertical items */
+  gap: 0.5rem;                     /* Space between items */
+}
+
+/* Individual Navigation Items */
+.nav__item {
+  display: flex;                   /* Flexbox for icon and text */
+  align-items: center;             /* Vertical center align */
+  gap: 0.75rem;                    /* Space between icon and text */
+  padding: 0.75rem 1rem;           /* Internal spacing */
+  border-radius: 0.375rem;         /* Rounded corners */
+  cursor: pointer;                 /* Pointer cursor on hover */
+  transition: all 0.3s ease;       /* Smooth transitions */
+}
+
+/* Normal State - Hover Effect */
+.nav__item:hover {
+  background-color: #374151;       /* Light gray background on hover */
+  transform: translateX(5px);      /* Slight right movement */
+}
+
+/* Active State - Current Page */
+.nav__item--active {
+  background-color: #2563eb;       /* Blue background for active item */
+  font-weight: 600;                /* Bold text for active item */
+}
+
+/* Navigation Icons */
+.nav__icon {
+  font-size: 1.2rem;               /* Icon size */
+}
+
+/* Navigation Text */
+.nav__text {
+  font-size: 1rem;                 /* Text size */
+  font-weight: 500;                /* Medium weight */
+}
+
+/* Sidebar Footer */
+.sidebar__footer {
+  margin-top: auto;                /* Push to bottom */
+  padding-top: 1rem;               /* Top spacing */
+  border-top: 1px solid #374151;   /* Top border */
+  text-align: center;              /* Center align text */
+  font-size: 0.875rem;             /* Small text size */
+  color: #9ca3af;                  /* Light gray color */
+}
+
+/* Responsive Design - Mobile View */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;                  /* Smaller width on mobile */
+    transform: translateX(-100%);  /* Hide by default */
+  }
+}

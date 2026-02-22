@@ -1,0 +1,2259 @@
+import React, { useState } from 'react';
+import './Dashboard.css';
+import FileUpload from './FileUpload';  // FileUpload import karo
+import EncryptionTools from './EncryptionTools';
+
+function Dashboard() {
+  // State to track if we should show FileUpload or Dashboard
+  const [showFileUpload, setShowFileUpload] = useState(false);
+  const [currentView, setCurrentView] = useState('dashboard');
+  // Quick Actions functions
+  const handleUploadClick = () => {
+    setShowFileUpload(true);  // FileUpload show karo
+  };
+
+  const handleEncryptClick = () => {
+    setCurrentView('encryptionTools');  // NEW FUNCTION
+  };
+
+  const handleCloudClick = () => {
+    alert('☁️ Cloud Backup: Yahan user encrypted files ko cloud storage mein save kar sakta hai');
+  };
+
+  const handleScanClick = () => {
+    alert('🔍 Security Scan: Yahan system files ko scan karega suspicious activity ke liye');
+  };
+
+  // Agar showFileUpload true hai toh FileUpload component dikhao
+  if (showFileUpload) {
+    return <FileUpload onBack={() => setShowFileUpload(false)} />;
+  }
+ if (currentView === 'encryptionTools') {
+    return <EncryptionTools onBack={() => setCurrentView('dashboard')} />;
+  }
+  // Nahi toh normal Dashboard dikhao
+  return (
+    <div className="dashboard">
+      
+      {/* Welcome Section */}
+      <div className="dashboard__welcome">
+        <h1>Welcome to CyberSecure Vault</h1>
+        <p>Protect your files with military-grade encryption</p>
+      </div>
+
+      {/* Stats Cards Grid */}
+      <div className="dashboard__stats">
+        
+        <div className="stat__card">
+          <div className="stat__icon">📁</div>
+          <div className="stat__info">
+            <h3>0</h3>
+            <p>Total Files</p>
+          </div>
+        </div>
+
+        <div className="stat__card">
+          <div className="stat__icon">🔒</div>
+          <div className="stat__info">
+            <h3>0</h3>
+            <p>Encrypted Files</p>
+          </div>
+        </div>
+
+        <div className="stat__card">
+          <div className="stat__icon">💾</div>
+          <div className="stat__info">
+            <h3>0 MB</h3>
+            <p>Storage Used</p>
+          </div>
+        </div>
+
+        <div className="stat__card">
+          <div className="stat__icon">🛡️</div>
+          <div className="stat__info">
+            <h3>AES-256</h3>
+            <p>Encryption Level</p>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Quick Actions Section */}
+      <div className="dashboard__actions">
+        <h2>Quick Actions</h2>
+        <div className="actions__grid">
+          
+          {/* Upload File Button - Ab FileUpload open karega */}
+          <button className="action__btn" onClick={handleUploadClick}>
+            <span className="action__icon">📤</span>
+            <span className="action__text">Upload File</span>
+          </button>
+
+          <button className="action__btn" onClick={handleEncryptClick}>
+            <span className="action__icon">🔐</span>
+            <span className="action__text">Encrypt File</span>
+          </button>
+
+          <button className="action__btn" onClick={handleCloudClick}>
+            <span className="action__icon">☁️</span>
+            <span className="action__text">Cloud Backup</span>
+          </button>
+
+          <button className="action__btn" onClick={handleScanClick}>
+            <span className="action__icon">🔍</span>
+            <span className="action__text">Security Scan</span>
+          </button>
+
+        </div>
+      </div>
+
+      {/* Recent Activity Section */}
+      <div className="dashboard__activity">
+        <h2>Recent Activity</h2>
+        <div className="activity__list">
+          <div className="activity__item">
+            <span className="activity__icon">📥</span>
+            <span className="activity__text">No recent activity</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+export default Dashboard;
+ye Dashboard.jsx file hai 
+/* Dashboard Main Container */
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8fafc;  /* Light background */
+  min-height: 100vh;          /* Full height */
+}
+
+/* Welcome Section */
+.dashboard__welcome {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__welcome h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.dashboard__welcome p {
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Stats Cards Grid - FIXED LAYOUT */
+.dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 equal columns */
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* Individual Stat Card */
+.stat__card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  border-left: 4px solid #2563eb;  /* Blue accent border */
+}
+
+.stat__card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stat__icon {
+  font-size: 2.5rem;
+  padding: 0.5rem;
+  background: #f1f5f9;
+  border-radius: 0.5rem;
+}
+
+.stat__info h3 {
+  font-size: 1.8rem;
+  color: #1f2937;
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.stat__info p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Quick Actions Section */
+.dashboard__actions {
+  margin-bottom: 3rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__actions h2 {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.actions__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 equal columns */
+  gap: 1rem;
+}
+
+/* Action Buttons */
+.action__btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 120px;
+}
+
+.action__btn:hover {
+  border-color: #2563eb;
+  background: #f8fafc;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.15);
+}
+
+.action__icon {
+  font-size: 2.5rem;
+}
+
+.action__text {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+/* Recent Activity Section */
+.dashboard__activity {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__activity h2 {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.activity__list {
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;  /* Border radius ke liye */
+}
+
+.activity__item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fafafa;
+}
+
+.activity__item:last-child {
+  border-bottom: none;
+}
+
+.activity__icon {
+  font-size: 1.5rem;
+}
+
+.activity__text {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* Responsive Design - Mobile View */
+@media (max-width: 1024px) {
+  .dashboard__stats {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns on tablet */
+  }
+  
+  .actions__grid {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns on tablet */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+    margin-left: 0;
+  }
+  
+  .dashboard__stats {
+    grid-template-columns: 1fr;  /* 1 column on mobile */
+  }
+  
+  .actions__grid {
+    grid-template-columns: 1fr;  /* 1 column on mobile */
+  }
+  
+  .dashboard__welcome h1 {
+    font-size: 2rem;
+  }
+}
+ye Dashboard.css file hai 
+import React, { useState } from "react";
+import "./FileUpload.css";
+
+/**
+ * FileUpload Component - File Upload Interface
+ * Features:
+ * - Drag & Drop file upload
+ * - File preview (images, text, PDF)
+ * - Auto redirect to dashboard after upload
+ * - Save uploaded files metadata to localStorage
+ */
+function FileUpload({ onBack }) {
+  // ========== STATE DEFINITIONS ==========
+  const [selectedFiles, setSelectedFiles] = useState([]);        // User selected files
+  const [uploadProgress, setUploadProgress] = useState(0);       // Upload progress percentage
+  const [isDragOver, setIsDragOver] = useState(false);           // Drag & drop highlight state
+  const [previewFile, setPreviewFile] = useState(null);          // File for preview modal
+  const [textContent, setTextContent] = useState("");            // Text file content for preview
+
+  // Ref to reset file input after clear
+  const fileInputRef = React.useRef(null);
+
+  // ========== FILE PREVIEW FUNCTIONS ==========
+  
+  /**
+   * Handle file preview when user clicks on file card
+   * Supports: Images, Text files, PDF, Other files
+   */
+  const handleFilePreview = (file) => {
+    setPreviewFile(file);
+
+    // Text files ke liye content read karen
+    if (file.type.startsWith("text/") || file.name.endsWith(".txt")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setTextContent(e.target.result);
+      };
+      reader.readAsText(file);
+    } else {
+      setTextContent("");
+    }
+  };
+
+  /**
+   * Close file preview modal
+   */
+  const handleClosePreview = () => {
+    setPreviewFile(null);
+  };
+
+  // ========== FILE SELECTION FUNCTIONS ==========
+  
+  /**
+   * Handle file selection from input field
+   */
+  const handleFileSelect = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedFiles(files);
+    setUploadProgress(0); // Reset progress on new selection
+  };
+
+  /**
+   * Handle drag over event for drag & drop
+   */
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragOver(true);
+  };
+
+  /**
+   * Handle drag leave event for drag & drop
+   */
+  const handleDragLeave = (event) => {
+    event.preventDefault();
+    setIsDragOver(false);
+  };
+
+  /**
+   * Handle file drop for drag & drop
+   */
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setIsDragOver(false);
+    const files = Array.from(event.dataTransfer.files);
+    setSelectedFiles(files);
+    setUploadProgress(0);
+  };
+
+  // ========== UPLOAD FUNCTIONS ==========
+  
+  /**
+   * Simulate file upload with auto redirect and file saving
+   * Steps:
+   * 1. Show upload progress
+   * 2. Save file metadata to localStorage (no duplicates)
+   * 3. Show success message
+   * 4. Auto redirect to dashboard after 2 seconds
+   */
+ const handleUpload = () => {
+  if (selectedFiles.length === 0) return;
+
+  // Simulate upload progress (0% to 100%)
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 10;
+    setUploadProgress(progress);
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+      
+      // ✅ STEP 1: Uploaded files ko localStorage mein save karen
+      const uploadedFilesInfo = selectedFiles.map(file => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified,
+        id: `${file.name}_${file.lastModified}_${file.size}` // Unique ID
+      }));
+      
+      // ✅ STEP 2: Check karen konsi files already uploaded hain
+      const existingFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+      const existingFileIds = new Set(existingFiles.map(f => f.id));
+      
+      // ✅ STEP 3: Separate new files and duplicate files
+      const newFiles = [];
+      const duplicateFiles = [];
+      
+      uploadedFilesInfo.forEach(file => {
+        if (existingFileIds.has(file.id)) {
+          duplicateFiles.push(file.name); // Duplicate file names store karen
+        } else {
+          newFiles.push(file); // New files store karen
+        }
+      });
+      
+      // ✅ STEP 4: New files ko existing files ke saath merge karen
+      if (newFiles.length > 0) {
+        const allFiles = [...existingFiles, ...newFiles];
+        localStorage.setItem('uploadedFiles', JSON.stringify(allFiles));
+      }
+      
+      // ✅ STEP 5: SMART MESSAGE BASED ON FILE STATUS
+      let message = "";
+      
+      if (newFiles.length > 0 && duplicateFiles.length > 0) {
+        // Some new, some duplicate
+        message = `✅ Upload Complete!\n\n📁 New Files Uploaded: ${newFiles.length}\n- ${newFiles.map(f => f.name).join('\n- ')}\n\n⚠️ Already Uploaded (Skipped): ${duplicateFiles.length}\n- ${duplicateFiles.join('\n- ')}`;
+      } 
+      else if (newFiles.length > 0) {
+        // All new files
+        message = `✅ Files Uploaded Successfully!\n\n📁 New Files: ${newFiles.length}\n- ${newFiles.map(f => f.name).join('\n- ')}`;
+      }
+      else if (duplicateFiles.length > 0) {
+        // All duplicate files
+        message = `⚠️ Files Already Uploaded!\n\n📁 These files are already in your uploaded list:\n- ${duplicateFiles.join('\n- ')}\n\nNo new files were added.`;
+      }
+      
+      // ✅ STEP 6: Show appropriate message
+      alert(message + `\n\nRedirecting to dashboard in 2 seconds...`);
+      
+      // Auto redirect after 2 seconds
+      setTimeout(() => {
+        onBack(); // Dashboard par redirect
+      }, 2000);
+    }
+  }, 200);
+};
+
+  /**
+   * Clear selected files and reset form
+   */
+  const handleClear = () => {
+    setSelectedFiles([]);
+    setUploadProgress(0);
+    // File input reset karenge
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // ========== COMPONENT RENDER ==========
+  return (
+    <div className="file-upload">
+      
+      {/* ========== HEADER SECTION ========== */}
+      <div className="upload__header">
+        <button className="back__btn" onClick={onBack}>
+          ← Back to Dashboard
+        </button>
+        <h1>📤 Upload Files</h1>
+        <p>Select files to encrypt and secure</p>
+      </div>
+
+      {/* ========== DRAG & DROP AREA ========== */}
+      <div
+        className={`upload__area ${isDragOver ? "upload__area--dragover" : ""}`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <div className="upload__content">
+          <div className="upload__icon">📁</div>
+          <h3>Drag & Drop Files Here</h3>
+          <p>or</p>
+
+          {/* File Input - Hidden but triggered by label */}
+          <label htmlFor="file-input" className="upload__browse-btn">
+            Browse Files
+          </label>
+          <input
+            id="file-input"
+            type="file"
+            multiple
+            onChange={handleFileSelect}
+            className="upload__input"
+            ref={fileInputRef}
+          />
+        </div>
+      </div>
+
+      {/* ========== SELECTED FILES LIST ========== */}
+      {selectedFiles.length > 0 && (
+        <div className="files__list">
+          <h3>Selected Files ({selectedFiles.length})</h3>
+
+          {/* Files Grid - Shows all selected files */}
+          <div className="files__grid">
+            {selectedFiles.map((file, index) => (
+              <div
+                key={index}
+                className="file__card"
+                onClick={() => handleFilePreview(file)}
+              >
+                {/* File type based icons */}
+                <div className="file__icon">
+                  {file.type.startsWith("image/")
+                    ? "🖼️"
+                    : file.type === "application/pdf"
+                    ? "📄"
+                    : file.type.startsWith("text/")
+                    ? "📝"
+                    : "📁"}
+                </div>
+                <div className="file__info">
+                  <h4>{file.name}</h4>
+                  <p>{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <span className="file__preview-hint">
+                    Click to preview
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ========== UPLOAD PROGRESS ========== */}
+          {uploadProgress > 0 && (
+            <div className="upload__progress">
+              <div className="progress__bar">
+                <div
+                  className="progress__fill"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <span>{uploadProgress}%</span>
+            </div>
+          )}
+
+          {/* ========== ACTION BUTTONS ========== */}
+          <div className="upload__actions">
+            <button 
+              className="btn btn--primary" 
+              onClick={handleUpload}
+              disabled={uploadProgress > 0 && uploadProgress < 100}
+            >
+              {uploadProgress === 0 ? 'Upload Files' : 'Uploading...'}
+            </button>
+
+            <button className="btn btn--secondary" onClick={handleClear}>
+              Clear Files
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ========== FILE PREVIEW MODAL ========== */}
+      {previewFile && (
+        <div className="preview__overlay">
+          <div className="preview__modal">
+            <div className="preview__header">
+              <h3>File Preview: {previewFile.name}</h3>
+              <button className="preview__close" onClick={handleClosePreview}>
+                ✕
+              </button>
+            </div>
+            <div className="preview__content">
+              
+              {/* Image File Preview */}
+              {previewFile.type.startsWith("image/") && (
+                <img
+                  src={URL.createObjectURL(previewFile)}
+                  alt="Preview"
+                  className="preview__image"
+                />
+              )}
+
+              {/* Text File Preview */}
+              {(previewFile.type.startsWith("text/") ||
+                previewFile.name.endsWith(".txt")) && (
+                <div className="preview__text">
+                  <h4>Text Content:</h4>
+                  <textarea
+                    className="preview__textarea"
+                    value={textContent}
+                    readOnly
+                    rows={Math.min(25, textContent.split("\n").length + 5)}
+                    style={{
+                      height: "auto",
+                      minHeight: "200px",
+                      maxHeight: "60vh",
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* PDF File Preview */}
+              {previewFile.type === "application/pdf" && (
+                <div className="preview__info">
+                  <p>📄 PDF File</p>
+                  <p><strong>Name:</strong> {previewFile.name}</p>
+                  <p><strong>Size:</strong> {(previewFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <p>PDF preview requires PDF.js library</p>
+                </div>
+              )}
+
+              {/* Other File Types Preview */}
+              {!previewFile.type.startsWith("image/") &&
+                !previewFile.type.startsWith("text/") &&
+                previewFile.type !== "application/pdf" && (
+                  <div className="preview__info">
+                    <p>📁 File Information</p>
+                    <p><strong>Name:</strong> {previewFile.name}</p>
+                    <p><strong>Type:</strong> {previewFile.type || "Unknown"}</p>
+                    <p><strong>Size:</strong> {(previewFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <p>Download option can be added here</p>
+                  </div>
+                )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default FileUpload;
+ye FileUpload.jsx file hai
+/* File Upload Main Container */
+.file-upload {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Upload Header */
+.upload__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.upload__header h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.upload__header p {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Back Button Styling - YEH NAYA HAI */
+.back__btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+}
+
+.back__btn:hover {
+  background: #4b5563;
+}
+
+/* Drag and Drop Area */
+.upload__area {
+  border: 3px dashed #d1d5db;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.upload__area:hover {
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+.upload__area--dragover {
+  border-color: #2563eb;
+  background: #eff6ff;
+  transform: scale(1.02);
+}
+
+.upload__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload__icon {
+  font-size: 4rem;
+  opacity: 0.7;
+}
+
+.upload__content h3 {
+  font-size: 1.5rem;
+  color: #374151;
+  margin: 0;
+}
+
+.upload__content p {
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Browse Button */
+.upload__browse-btn {
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.upload__browse-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Hide default file input */
+.upload__input {
+  display: none;
+}
+
+/* Selected Files List */
+.files__list {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.files__list h3 {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* Files Grid */
+.files__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* File Card */
+.file__card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.file__icon {
+  font-size: 2rem;
+}
+
+.file__info h4 {
+  margin: 0 0 0.25rem 0;
+  color: #374151;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.file__info p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+/* Upload Progress */
+.upload__progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.progress__bar {
+  flex: 1;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.upload__progress span {
+  color: #374151;
+  font-weight: 600;
+  min-width: 40px;
+}
+
+/* Action Buttons */
+.upload__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.btn--primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn--primary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn--secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn--secondary:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .file-upload {
+    padding: 1rem;
+  }
+  
+  .upload__area {
+    padding: 2rem 1rem;
+  }
+  
+  .files__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .upload__actions {
+    flex-direction: column;
+  }
+}
+
+/* File Card Improvements for Preview */
+.file__card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  cursor: pointer; /* NEW: Clickable banaye */
+  transition: all 0.3s ease; /* NEW: Hover effect */
+}
+
+.file__card:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* File Preview Hint */
+.file__preview-hint {
+  font-size: 0.7rem;
+  color: #2563eb;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* File Preview Modal */
+.preview__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.preview__modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  position: relative;
+}
+
+.preview__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 1rem;
+}
+
+.preview__header h3 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.preview__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.preview__close:hover {
+  color: #374151;
+}
+
+.preview__content {
+  text-align: center;
+}
+
+.preview__image {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 0.5rem;
+}
+
+.preview__info {
+  text-align: left;
+  padding: 1rem;
+}
+
+.preview__info p {
+  margin: 0.5rem 0;
+  color: #374151;
+}
+/* Text File Preview */
+.preview__text {
+  text-align: left;
+  width: 100%;
+}
+
+.preview__textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-family: monospace;
+  font-size: 0.9rem;
+  resize: vertical; /* User resize allow karega */
+  background: #f9fafb;
+  min-height: 200px; /* Minimum height */
+  max-height: 60vh; /* Maximum height */
+  overflow-y: auto; /* Scroll if content long */
+  box-sizing: border-box; /* Padding include karega */
+}
+.preview__modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 80%; /* Increase width */
+  max-height: 85%; /* Increase height */
+  overflow: auto;
+  position: relative;
+  width: 600px; /* Fixed width for better layout */
+}
+ye FileUpload.css file hai 
+import React, { useState } from 'react';
+import './EncryptionTools.css';
+
+/**
+ * EncryptionTools Component - File Encryption/Decryption Interface
+ * Features:
+ * - Encrypt/Decrypt files with password protection
+ * - Show uploaded files list from localStorage
+ * - Progress simulation for encryption/decryption
+ * - Support for multiple file types
+ */
+function EncryptionTools({ onBack }) {
+  // ========== STATE DEFINITIONS ==========
+  const [selectedFile, setSelectedFile] = useState(null);          // Currently selected file
+  const [password, setPassword] = useState('');                    // Encryption password
+  const [encryptionProgress, setEncryptionProgress] = useState(0); // Progress percentage
+  const [operationType, setOperationType] = useState('encrypt');   // encrypt or decrypt
+  const [uploadedFiles, setUploadedFiles] = useState([]);          // Files from localStorage
+  const [showUploadedFiles, setShowUploadedFiles] = useState(false); // Show/hide uploaded files
+
+  // ========== LIFECYCLE & DATA LOADING ==========
+  
+  /**
+   * Load uploaded files from localStorage when component mounts
+   */
+  React.useEffect(() => {
+    const files = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+    setUploadedFiles(files);
+  }, []);
+
+  // ========== FILE SELECTION FUNCTIONS ==========
+  
+  /**
+   * Handle file selection from file input
+   */
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    setEncryptionProgress(0);
+  };
+
+  // ========== ENCRYPTION/DECRYPTION FUNCTIONS ==========
+  
+  /**
+   * Simulate file encryption process
+   * Steps:
+   * 1. Validate file and password
+   * 2. Show encryption progress
+   * 3. Show success message with encrypted file name
+   * 4. Reset form
+   */
+  const handleEncrypt = () => {
+    if (!selectedFile || !password) {
+      alert('Please select a file and enter password!');
+      return;
+    }
+
+    // Simulate encryption progress (0% to 100%)
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      setEncryptionProgress(progress);
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+        
+        // Create encrypted file download info
+        const encryptedFileName = `encrypted_${selectedFile.name}.secure`;
+        alert(`✅ File encrypted successfully!\n\nDownload: ${encryptedFileName}\nPassword: ${password}`);
+        
+        // Reset form after completion
+        setSelectedFile(null);
+        setPassword('');
+        setEncryptionProgress(0);
+      }
+    }, 200);
+  };
+
+  /**
+   * Simulate file decryption process
+   * Steps:
+   * 1. Validate file and password
+   * 2. Show decryption progress
+   * 3. Show success message with decrypted file name
+   * 4. Reset form
+   */
+  const handleDecrypt = () => {
+    if (!selectedFile || !password) {
+      alert('Please select a file and enter password!');
+      return;
+    }
+
+    // Simulate decryption progress (0% to 100%)
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      setEncryptionProgress(progress);
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+        
+        // Create decrypted file download info
+        const decryptedFileName = selectedFile.name.replace('_encrypted', '').replace('.secure', '');
+        alert(`✅ File decrypted successfully!\n\nDownload: ${decryptedFileName}`);
+        
+        // Reset form after completion
+        setSelectedFile(null);
+        setPassword('');
+        setEncryptionProgress(0);
+      }
+    }, 200);
+  };
+
+  /**
+   * Clear selected file and reset form
+   */
+  const handleClear = () => {
+    setSelectedFile(null);
+    setPassword('');
+    setEncryptionProgress(0);
+  };
+
+  // ========== COMPONENT RENDER ==========
+  return (
+    <div className="encryption-tools">
+      
+      {/* ========== HEADER SECTION ========== */}
+      <div className="encryption__header">
+        <button className="back__btn" onClick={onBack}>
+          ← Back to Dashboard
+        </button>
+        <h1>🔐 Encryption Tools</h1>
+        <p>Encrypt and decrypt your files with password protection</p>
+      </div>
+
+      {/* ========== OPERATION TYPE SELECTION ========== */}
+      <div className="operation__selector">
+        <button 
+          className={`operation__btn ${operationType === 'encrypt' ? 'operation__btn--active' : ''}`}
+          onClick={() => setOperationType('encrypt')}
+        >
+          🔒 Encrypt File
+        </button>
+        <button 
+          className={`operation__btn ${operationType === 'decrypt' ? 'operation__btn--active' : ''}`}
+          onClick={() => setOperationType('decrypt')}
+        >
+          🔓 Decrypt File
+        </button>
+      </div>
+
+      {/* ========== FILE SELECTION SECTION ========== */}
+      <div className="file__section">
+        <h3>Step 1: Select File</h3>
+        <div className="file__input-area">
+          <label htmlFor="encrypt-file-input" className="file__browse-btn">
+            📁 Choose File
+          </label>
+          <input 
+            id="encrypt-file-input"
+            type="file" 
+            onChange={handleFileSelect}
+            className="file__input"
+          />
+          {/* Show selected file info */}
+          {selectedFile && (
+            <div className="selected__file">
+              <span className="file__icon">📄</span>
+              <div className="file__details">
+                <strong>{selectedFile.name}</strong>
+                <span>{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ========== UPLOADED FILES SECTION ========== */}
+      
+    
+      <div className="uploaded__section">
+        <div className="uploaded__header">
+          <h3>OR Select from Uploaded Files ({uploadedFiles.length})</h3>
+          <div className="uploaded__actions">
+            <button 
+              className="toggle__btn"
+              onClick={() => setShowUploadedFiles(!showUploadedFiles)}
+            >
+              {showUploadedFiles ? '▲ Hide' : '▼ Show'} Uploaded Files
+            </button>
+            
+            {/* ✅ CLEAR ALL BUTTON - Only show when files exist */}
+            {uploadedFiles.length > 0 && (
+              <button 
+                className="clear-all__btn"
+                onClick={() => {
+                  if (window.confirm('⚠️ Are you sure you want to clear ALL uploaded files?\n\nThis action cannot be undone.')) {
+                    localStorage.removeItem('uploadedFiles');
+                    setUploadedFiles([]);
+                    setShowUploadedFiles(false);
+                    alert('✅ All uploaded files have been cleared!');
+                  }
+                }}
+              >
+                🗑️ Clear All
+              </button>
+            )}
+          </div>
+        </div>
+        
+        {showUploadedFiles && (
+          <div className="uploaded__files">
+            {uploadedFiles.length === 0 ? (
+              <p className="no__files">No files uploaded yet. Upload files first.</p>
+            ) : (
+              <div className="uploaded__grid">
+                {uploadedFiles.map((file, index) => (
+                  <div 
+                    key={index} 
+                    className="uploaded__file"
+                    onClick={() => {
+                      alert(`📁 File Selected: ${file.name}\n\n📍 This is from your uploaded files list\n💡 For actual encryption, please select the original file from your device`);
+                      setSelectedFile(file);
+                      setShowUploadedFiles(false);
+                    }}
+                  >
+                    <span className="file__icon">
+                      {file.type.startsWith('image/') ? '🖼️' : 
+                       file.type === 'application/pdf' ? '📄' : 
+                       file.type.startsWith('text/') ? '📝' : '📁'}
+                    </span>
+                    <div className="file__details">
+                      <strong>{file.name}</strong>
+                      <span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ========== PASSWORD INPUT SECTION ========== */}
+      <div className="password__section">
+        <h3>Step 2: Enter Password</h3>
+        <input 
+          type="password"
+          placeholder="Enter strong password..."
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="password__input"
+        />
+        <p className="password__hint">Use a strong password with letters, numbers, and symbols</p>
+      </div>
+
+      {/* ========== ENCRYPTION PROGRESS SECTION ========== */}
+      {encryptionProgress > 0 && (
+        <div className="encryption__progress">
+          <h3>
+            {operationType === 'encrypt' ? '🔒 Encrypting...' : '🔓 Decrypting...'}
+          </h3>
+          <div className="progress__bar">
+            <div 
+              className="progress__fill" 
+              style={{ width: `${encryptionProgress}%` }}
+            ></div>
+          </div>
+          <span>{encryptionProgress}%</span>
+        </div>
+      )}
+
+      {/* ========== ACTION BUTTONS SECTION ========== */}
+      <div className="encryption__actions">
+        <button 
+          className="btn btn--primary" 
+          onClick={operationType === 'encrypt' ? handleEncrypt : handleDecrypt}
+          disabled={encryptionProgress > 0 && encryptionProgress < 100}
+        >
+          {operationType === 'encrypt' ? '🔒 Encrypt File' : '🔓 Decrypt File'}
+        </button>
+        
+        <button 
+          className="btn btn--secondary" 
+          onClick={handleClear}
+        >
+          Clear
+        </button>
+      </div>
+
+      {/* ========== FEATURES INFO SECTION ========== */}
+      <div className="features__info">
+        <h3>🔒 How It Works:</h3>
+        <div className="features__grid">
+          <div className="feature__card">
+            <span className="feature__icon">🛡️</span>
+            <h4>AES-256 Encryption</h4>
+            <p>Military-grade encryption algorithm</p>
+          </div>
+          <div className="feature__card">
+            <span className="feature__icon">🔑</span>
+            <h4>Password Protected</h4>
+            <p>Only you can decrypt with your password</p>
+          </div>
+          <div className="feature__card">
+            <span className="feature__icon">⚡</span>
+            <h4>Fast Processing</h4>
+            <p>Quick encryption and decryption</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+export default EncryptionTools;
+ye EcryptionTools.jsx file hai
+/* ========== ENCRYPTION TOOLS MAIN CONTAINER ========== */
+.encryption-tools {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* ========== HEADER SECTION ========== */
+.encryption__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.encryption__header h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.encryption__header p {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Back to Dashboard Button */
+.back__btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+}
+
+.back__btn:hover {
+  background: #4b5563;
+}
+
+/* ========== OPERATION SELECTOR (Encrypt/Decrypt) ========== */
+.operation__selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.operation__btn {
+  padding: 1rem 2rem;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.operation__btn--active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.operation__btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ========== FILE SELECTION SECTION ========== */
+.file__section, .password__section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.file__section h3, .password__section h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.file__input-area {
+  text-align: center;
+}
+
+/* Browse File Button */
+.file__browse-btn {
+  background: #2563eb;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.file__browse-btn:hover {
+  background: #1d4ed8;
+}
+
+.file__input {
+  display: none;
+}
+
+/* Selected File Display */
+.selected__file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.file__icon {
+  font-size: 2rem;
+}
+
+.file__details {
+  display: flex;
+  flex-direction: column;
+}
+
+.file__details strong {
+  color: #374151;
+}
+
+.file__details span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* ========== UPLOADED FILES SECTION ========== */
+.uploaded__section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.uploaded__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.uploaded__header h3 {
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Uploaded Files Actions Container */
+.uploaded__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Show/Hide Toggle Button */
+.toggle__btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.toggle__btn:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+/* Clear All Button - RED COLOR FOR DANGER ACTION */
+.clear-all__btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.clear-all__btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.uploaded__files {
+  margin-top: 1rem;
+}
+
+/* No Files Message */
+.no__files {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px dashed #d1d5db;
+}
+
+/* Uploaded Files Grid Layout */
+.uploaded__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Individual Uploaded File Card */
+.uploaded__file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.uploaded__file:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== PASSWORD SECTION ========== */
+.password__input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.password__input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.password__hint {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ========== ENCRYPTION PROGRESS SECTION ========== */
+.encryption__progress {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.encryption__progress h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.progress__bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress__fill {
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+/* ========== ACTION BUTTONS SECTION ========== */
+.encryption__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.btn--primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn--primary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn--secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn--secondary:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* ========== FEATURES INFO SECTION ========== */
+.features__info {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.features__info h3 {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature__card {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.feature__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature__card h4 {
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+}
+
+.feature__card p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+  .encryption-tools {
+    padding: 1rem;
+  }
+  
+  .operation__selector {
+    flex-direction: column;
+  }
+  
+  .encryption__actions {
+    flex-direction: column;
+  }
+  
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Mobile improvements for Uploaded Files */
+  .uploaded__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .uploaded__header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .uploaded__header h3 {
+    text-align: center;
+  }
+  
+  .uploaded__grid {
+    grid-template-columns: 1fr;
+  }
+}/* ========== ENCRYPTION TOOLS MAIN CONTAINER ========== */
+.encryption-tools {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* ========== HEADER SECTION ========== */
+.encryption__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.encryption__header h1 {
+  font-size: 2.5rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.encryption__header p {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Back to Dashboard Button */
+.back__btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+}
+
+.back__btn:hover {
+  background: #4b5563;
+}
+
+/* ========== OPERATION SELECTOR (Encrypt/Decrypt) ========== */
+.operation__selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.operation__btn {
+  padding: 1rem 2rem;
+  border: 2px solid #d1d5db;
+  background: white;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.operation__btn--active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.operation__btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ========== FILE SELECTION SECTION ========== */
+.file__section, .password__section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.file__section h3, .password__section h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.file__input-area {
+  text-align: center;
+}
+
+/* Browse File Button */
+.file__browse-btn {
+  background: #2563eb;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.file__browse-btn:hover {
+  background: #1d4ed8;
+}
+
+.file__input {
+  display: none;
+}
+
+/* Selected File Display */
+.selected__file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.file__icon {
+  font-size: 2rem;
+}
+
+.file__details {
+  display: flex;
+  flex-direction: column;
+}
+
+.file__details strong {
+  color: #374151;
+}
+
+.file__details span {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* ========== UPLOADED FILES SECTION ========== */
+.uploaded__section {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.uploaded__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.uploaded__header h3 {
+  color: #1f2937;
+  margin: 0;
+}
+
+/* Uploaded Files Actions Container */
+.uploaded__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Show/Hide Toggle Button */
+.toggle__btn {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.toggle__btn:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+/* Clear All Button - RED COLOR FOR DANGER ACTION */
+.clear-all__btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.clear-all__btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.uploaded__files {
+  margin-top: 1rem;
+}
+
+/* No Files Message */
+.no__files {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px dashed #d1d5db;
+}
+
+/* Uploaded Files Grid Layout */
+.uploaded__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Individual Uploaded File Card */
+.uploaded__file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.uploaded__file:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== PASSWORD SECTION ========== */
+.password__input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.password__input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.password__hint {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* ========== ENCRYPTION PROGRESS SECTION ========== */
+.encryption__progress {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.encryption__progress h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.progress__bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress__fill {
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+/* ========== ACTION BUTTONS SECTION ========== */
+.encryption__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.btn--primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn--primary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.btn--secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.btn--secondary:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+/* ========== FEATURES INFO SECTION ========== */
+.features__info {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.features__info h3 {
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature__card {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.feature__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature__card h4 {
+  color: #374151;
+  margin: 0 0 0.5rem 0;
+}
+
+.feature__card p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+  .encryption-tools {
+    padding: 1rem;
+  }
+  
+  .operation__selector {
+    flex-direction: column;
+  }
+  
+  .encryption__actions {
+    flex-direction: column;
+  }
+  
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Mobile improvements for Uploaded Files */
+  .uploaded__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .uploaded__header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .uploaded__header h3 {
+    text-align: center;
+  }
+  
+  .uploaded__grid {
+    grid-template-columns: 1fr;
+  }
+}
+ye EncryptionTools.css file hai
+import React from 'react';
+import './App.css';
+import Header from './Header';
+import Sidebar from './Sidebar';  
+import Dashboard from './Dashboard';
+import FileUpload from './FileUpload';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <div className="App">
+      <Header />
+      
+      {/* Main Layout Container */}
+      <div className="app__body">
+        <Sidebar />  {/* Sidebar added */}
+        
+        {/* Main Content Area */}
+        <div className="app__content">
+          <div className="main-content">
+            <h2>Welcome to CyberSecure Vault</h2>
+            <p>Your files are secure with us!</p>
+
+            {/*Dashboard */}
+            <Dashboard/>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+ye App.js file hai 
+m es project par kam kar rha hu ye Ecryption tool project hai
